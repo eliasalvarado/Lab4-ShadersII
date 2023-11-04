@@ -12,12 +12,14 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
 out vec2 uvs;
+out vec3 outPosition;
 out vec3 outNormals;
 
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1);
     uvs = texCoords;
     outNormals = (modelMatrix * vec4(normals, 0)).xyz;
+    outPosition = position;
 }
 
 '''
@@ -50,17 +52,27 @@ pruebaShader = '''
 layout (binding = 0) uniform sampler2D tex;
 
 uniform vec3 directionalLight;
+uniform float time;
 
 in vec2 uvs;
 in vec3 outNormals;
+in vec3 outPosition;
 
 out vec4 fragColor;
 
+vec3 color() {
+  
+  vec3 color = vec3(0.0, 0.0, 0.0);
+  
+  if( abs(mod(abs(outPosition.x), abs(0.2 * sin(time * 0.5)))) < 0.1){
+    color.x = 1.0;
+  }
+
+  return color;
+}
+
 void main() {
-    float intensity = dot(outNormals, -directionalLight);
-    intensity = min(1, intensity);
-    intensity = max(0, intensity);
-    fragColor = texture(tex, uvs) * intensity;
+    fragColor = vec4(color(), 1);
 }
 
 '''

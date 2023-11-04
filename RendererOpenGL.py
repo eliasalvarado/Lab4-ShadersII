@@ -5,7 +5,9 @@ import glm
 
 from gl import Renderer
 from Model import Model
-from shaders import vertexShader, fragmentShader
+from shaders import vertexShader, fragmentShader, pruebaShader
+
+from glm import vec3
 
 
 width = 960
@@ -18,12 +20,12 @@ clock = pg.time.Clock()
 
 renderer = Renderer(screen)
 
-renderer.setShader(vertexShader, fragmentShader)
+renderer.setShader(vertexShader, pruebaShader)
 
-renderer.loadModel(filename="narsil.obj",
-                   textureFile="narsil.bmp",
+renderer.loadModel(filename="model.obj",
+                   textureFile="model.bmp",
                    potition=(0,0,-5),
-                   rotation=(-90,45,0),
+                   rotation=(0,0,0),
                    scale=(3,3,3))
 
 
@@ -68,7 +70,22 @@ while isRunning:
         renderer.camRotation.x += deltaTime * speed ** 2
     elif keys[K_s]:
         renderer.camRotation.x -= deltaTime * speed ** 2
+        
+    if keys[K_1]:
+        renderer.directionalLight = vec3(1,0,0)
+    elif keys[K_2]:
+        renderer.directionalLight = vec3(-1,0,0)
+    elif keys[K_3]:
+        renderer.directionalLight = vec3(0,1,0)
+    elif keys[K_4]:
+        renderer.directionalLight = vec3(0,-1,0)
+    elif keys[K_5]:
+        renderer.directionalLight = vec3(0,0,1)
+    elif keys[K_6]:
+        renderer.directionalLight = vec3(0,0,-1)
 
+    renderer.time += deltaTime
+        
     renderer.render()
     pg.display.flip()
 

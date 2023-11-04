@@ -28,6 +28,8 @@
     <Compile Include="shaders.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="model.bmp" />
+    <Content Include="model.obj" />
     <Content Include="narsil.bmp" />
     <Content Include="narsil.obj" />
     <Content Include="output.jpg" />

@@ -25,6 +25,8 @@ class Renderer(object):
 		self.camRotation = glm.vec3(0,0,0)
 
 		self.projectionMatrix = glm.perspective(glm.radians(60), self.width / self.height, 0.1, 1000)
+		
+		self.time = 0.0
 
 	def setShader(self, vertex_shader, fragment_shader):
 		if vertex_shader and fragment_shader:
@@ -104,7 +106,7 @@ class Renderer(object):
 			glUniformMatrix4fv(glGetUniformLocation(self.activeShader, "viewMatrix"), 1, GL_FALSE, glm.value_ptr(self.getViewMatrix()))
 			glUniformMatrix4fv(glGetUniformLocation(self.activeShader, "projectionMatrix"), 1, GL_FALSE, glm.value_ptr(self.projectionMatrix))
 			
-			# glUniform1f(glGetUniformLocation(self.activeShader, "time"), self.ela)
+			glUniform1f(glGetUniformLocation(self.activeShader, "time"), self.time)
 			glUniform3fv(glGetUniformLocation(self.activeShader, "directionalLight"), 1, glm.value_ptr(self.directionalLight))
 
 		for obj in self.scene:
