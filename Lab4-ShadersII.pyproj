@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e1bcd468-0028-4724-9b2b-14f710bf4dd7</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Lab4_ShadersII.py</StartupFile>
+    <StartupFile>RendererOpenGL.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +21,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Lab4_ShadersII.py" />
+    <Compile Include="gl.py" />
+    <Compile Include="Model.py" />
+    <Compile Include="obj.py" />
+    <Compile Include="RendererOpenGL.py" />
+    <Compile Include="shaders.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="narsil.bmp" />
+    <Content Include="narsil.obj" />
+    <Content Include="output.jpg" />
+    <Content Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
