@@ -1,9 +1,11 @@
 import glm
 from OpenGL.GL import *
 from OpenGL.GL.shaders import compileProgram, compileShader
+import pygame
 
 from Model import Model
 from obj import Obj
+from Skybox import Skybox
 
 class Renderer(object):
 	def __init__(self, screen):
@@ -12,6 +14,7 @@ class Renderer(object):
 		self.clearColor = [0, 0, 0]
 
 		glEnable(GL_DEPTH_TEST)
+		glEnable(GL_CULL_FACE)
 		# glGenerateMipmap(GL_TEXTURE_2D)
 		glViewport(0, 0, self.width, self.height)
 
@@ -27,6 +30,9 @@ class Renderer(object):
 		self.projectionMatrix = glm.perspective(glm.radians(60), self.width / self.height, 0.1, 1000)
 		
 		self.time = 0.0
+		
+		self.envMap = None
+		
 
 	def setShader(self, vertex_shader, fragment_shader):
 		if vertex_shader and fragment_shader:
@@ -96,8 +102,12 @@ class Renderer(object):
 
 		return glm.inverse(translate * rotation)
 
+	def loadEnvironmentMap(self, textureFile):
+		self.envMap = Skybox(textureFile=textureFile)
+	
+	
 	def render(self):
-		glClearColor(self.clearColor[0], self.clearColor[1], self.clearColor[2], 1)
+		glClearColor(self.clearColor[0], self.clearColor[1], self.clearColor[2], 0.1)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 		if self.activeShader:
@@ -108,11 +118,18 @@ class Renderer(object):
 			
 			glUniform1f(glGetUniformLocation(self.activeShader, "time"), self.time)
 			glUniform3fv(glGetUniformLocation(self.activeShader, "directionalLight"), 1, glm.value_ptr(self.directionalLight))
+			
+			resolution = glm.vec2(self.width, self.height)
+			glUniform2fv(glGetUniformLocation(self.activeShader, "resolution"), 1, GL_FALSE, glm.value_ptr(resolution))
 
 		for obj in self.scene:
 			if self.activeShader:
 				glUniformMatrix4fv(glGetUniformLocation(self.activeShader, "modelMatrix"), 1, GL_FALSE, glm.value_ptr(obj.getModelMatrix()))
 			obj.render()
+		
+		if self.envMap:
+			view = self.getViewMatrix()
+			self.envMap.render(view, self.projectionMatrix)
 	
 
 

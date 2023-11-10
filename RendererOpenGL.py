@@ -1,13 +1,10 @@
 import pygame as pg
 from pygame.locals import *
 from OpenGL.GL import GL_TRUE, glReadPixels, GL_RGB, GL_UNSIGNED_BYTE, GL_TRUE
-import glm
 
 from gl import Renderer
-from Model import Model
-from shaders import vertexShader, fragmentShader, pruebaShader
+from shaders import *
 
-from glm import vec3
 
 
 width = 960
@@ -20,14 +17,16 @@ clock = pg.time.Clock()
 
 renderer = Renderer(screen)
 
-renderer.setShader(vertexShader, pruebaShader)
+renderer.setShader(vertex_shader= vertexShader,
+                   fragment_shader= fragmentShader )
 
-renderer.loadModel(filename="model.obj",
-                   textureFile="model.bmp",
+renderer.loadModel(filename="narsil.obj",
+                   textureFile="narsil.bmp",
                    potition=(0,0,-5),
-                   rotation=(0,0,0),
-                   scale=(3,3,3))
+                   rotation=(-90,0,0),
+                   scale=(2,2,2))
 
+#renderer.loadEnvironmentMap("env")
 
 speed = 10
 isRunning = True
@@ -72,17 +71,17 @@ while isRunning:
         renderer.camRotation.x -= deltaTime * speed ** 2
         
     if keys[K_1]:
-        renderer.directionalLight = vec3(1,0,0)
+        renderer.setShader(vertex_shader= distortionVertex,
+                   fragment_shader= colorFulFragment)
     elif keys[K_2]:
-        renderer.directionalLight = vec3(-1,0,0)
+        renderer.setShader(vertex_shader= clockVertex,
+                   fragment_shader= theMatrixFragment)
     elif keys[K_3]:
-        renderer.directionalLight = vec3(0,1,0)
+        renderer.setShader(vertex_shader= vertexShader,
+                   fragment_shader= powerFragment)
     elif keys[K_4]:
-        renderer.directionalLight = vec3(0,-1,0)
-    elif keys[K_5]:
-        renderer.directionalLight = vec3(0,0,1)
-    elif keys[K_6]:
-        renderer.directionalLight = vec3(0,0,-1)
+        renderer.setShader(vertex_shader= vertexShader,
+                   fragment_shader= shininessFragment )
 
     renderer.time += deltaTime
         

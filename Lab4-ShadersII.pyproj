@@ -26,14 +26,30 @@
     <Compile Include="obj.py" />
     <Compile Include="RendererOpenGL.py" />
     <Compile Include="shaders.py" />
+    <Compile Include="Skybox.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="environmentMap.jpg" />
+    <Content Include="env\negx.jpg" />
+    <Content Include="env\negy.jpg" />
+    <Content Include="env\negz.jpg" />
+    <Content Include="env\posx.jpg" />
+    <Content Include="env\posy.jpg" />
+    <Content Include="env\posz.jpg" />
     <Content Include="model.bmp" />
     <Content Include="model.obj" />
     <Content Include="narsil.bmp" />
     <Content Include="narsil.obj" />
     <Content Include="output.jpg" />
     <Content Include="README.md" />
+    <Content Include="esfera.obj" />
+    <Content Include="spiderman.obj" />
+    <Content Include="spiderman.png" />
+    <Content Include="spidey.obj" />
+    <Content Include="spidey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="env\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
